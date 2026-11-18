@@ -80,10 +80,10 @@ schema 文档形状 (strategies 的 launch.json 同款约定):
 
 ## 安装 (宿主项目)
 
-宿主 composer.json: repositories 加 nova 源 + 本包 git 仓库源, require `vcsb/nova-system-settings: ^1.0`;
+宿主 composer.json: repositories 加 nova 源 + 本包 git 仓库源, require `aivcsb/nova-system-settings: ^1.0`;
 nova.laravel.com 是私有源, 需 `composer config http-basic.nova.laravel.com <NOVA_USERNAME> <NOVA_LICENSE_KEY>`.
 
-    composer require vcsb/nova-system-settings:^1.0
+    composer require aivcsb/nova-system-settings:^1.0
     php artisan migrate
 
 构建 (仅改前端时): 包内 `bun install && bun run production` → `dist/` 必须入库 (composer 安装不带 node_modules).
@@ -91,4 +91,4 @@ nova.laravel.com 是私有源, 需 `composer config http-basic.nova.laravel.com 
 ## 发布 (维护者)
 
 版本只看 git tag, composer.json 禁写 version 字段 (inline version 永远压过 tag, composer 恒解析旧版).
-发版: 改完 → commit → `git tag 1.0.x` → push 含 tag → 宿主 `composer update vcsb/nova-system-settings`.
+发版: 改完 → commit → `git tag 1.0.x` → push 含 tag → 宿主 `composer update aivcsb/nova-system-settings`.
