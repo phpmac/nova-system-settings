@@ -110,16 +110,6 @@ schema 文档形状:
 | GET | `/nova-vendor/system-settings` | 返回 `{groups: [{key, label, settings: [{key, label, description, type, options, value, default}]}]}`, 由 schema+value 组装, 渲染序按 x-order |
 | PUT | `/nova-vendor/system-settings/save` | body `{values: {设置键: 值}}` 返回 `{saved: N}`, 未知键/非法值 422 |
 
-## 校验规范
-
-- 结构唯一来源: Seeder 常量, 数据库 group 列只存 value, 枚举 `Enums\SettingGroup` 是分组的唯一枚举源
-- 字段级断言: JSON 类型与 x-control 匹配 / title 非空 / default 存在且类型一致 / select 的 enum 与 x-options 值列一致
-- multi 禁用 property 级 `enum` (数组对恒假), 选项约束只允许 `items.enum`
-- required / x-order 与 properties 键的比较按集合相等 (jsonb 会重排对象键), 渲染顺序以 x-order 列表为准
-- 保存按分组归拢: opis 校验 required 换成已提交键集, 整批通过才合并写回
-- 恢复默认为 HTML reset 语义: 还原到页面加载时的值, 不改 schema default
-- 控件类型取值由 `Enums\SettingType` 维护, 禁散写
-
 ## 包结构
 
 ```
