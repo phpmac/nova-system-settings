@@ -1,5 +1,5 @@
 {
-    "name": "vcsb/system-settings",
+    "name": "vcsb/nova-system-settings",
     "description": "Nova 后台系统设置页: Schema 驱动的自定义设置表单 (常规/用户/安全/通知), 替代资源列表页",
     "keywords": ["laravel", "nova"],
     "license": "MIT",
