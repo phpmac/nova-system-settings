@@ -101,7 +101,7 @@ function rowClass(index) {
   const border = index > 0 ? 'border-t border-gray-100 dark:border-gray-700' : ''
   const on = current.value === props.options[index]?.value || index === activeIndex.value
   return on
-    ? `${border} bg-blue-100 text-blue-700 dark:bg-primary-500 dark:text-gray-900 font-medium`.trim()
+    ? `${border} bg-primary-500 text-white font-medium`.trim()
     : `${border} hover:bg-gray-100 dark:hover:bg-gray-800`.trim()
 }
 

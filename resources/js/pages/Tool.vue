@@ -5,8 +5,8 @@
     <!-- 单卡布局: 分组段选 + 行尾 恢复默认/保存 (PnlCalendar filter-bar 同布局); 卡片至少撑到视口高 (setting-card), 行区吃剩余 -->
     <div class="setting-card flex flex-col rounded-lg shadow bg-white dark:bg-gray-800">
       <div class="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+        <!-- 顶部行只留分组段选; 动作按钮在卡底操作条 (2026-11-18 用户拍板) -->
         <div class="flex flex-wrap items-center gap-2">
-          <!-- 分组段选: 接口先发分组清单, 点页签才拉组内数据 (按需加载) -->
           <div class="flex gap-1">
             <button
               v-for="group in groups"
@@ -16,28 +16,6 @@
               :class="active === group.key ? segOn : segOff"
               @click="switchGroup(group.key)"
             >{{ group.label }}</button>
-          </div>
-
-          <!-- 提示位: 保存结果 / 恢复默认提示 / 校验错误, 占 flex-1 不挤按钮 -->
-          <span
-            class="flex-1 truncate text-sm"
-            :class="hintBad ? 'text-red-700' : 'text-gray-500 dark:text-gray-400'"
-          >{{ hint }}</span>
-
-          <div class="flex gap-1 ml-auto shrink-0">
-            <button
-              type="button"
-              class="h-8 px-3 text-sm rounded-lg border border-gray-300 text-gray-600 cursor-pointer transition hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
-              :disabled="busy || !hasActive"
-              @click="resetDefaults"
-            >恢复默认</button>
-            <button
-              type="button"
-              class="h-8 px-3 text-sm rounded-lg bg-primary-500 text-white font-semibold transition"
-              :class="busy ? 'opacity-50' : 'cursor-pointer'"
-              :disabled="busy || !hasActive"
-              @click="save"
-            >{{ busy ? '保存中...' : '保存' }}</button>
           </div>
         </div>
       </div>
@@ -91,6 +69,33 @@
           v-if="currentSettings.length === 0"
           class="text-center text-sm text-gray-500 dark:text-gray-400 py-8"
         >{{ loadingKey !== '' ? '加载中...' : (hasActive ? '该分组暂无设置' : '加载中...') }}</div>
+      </div>
+
+      <!-- 底部操作条: 提示 + 恢复默认/保存 (卡首行对称形态 border-t); 三分支外常驻, 错误态按钮也可用 -->
+      <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+        <div class="flex flex-wrap items-center gap-2">
+          <span
+            class="flex-1 truncate text-sm"
+            :class="hintBad ? 'text-red-700' : 'text-gray-500 dark:text-gray-400'"
+          >{{ hint }}</span>
+
+          <div class="flex gap-1 ml-auto shrink-0">
+            <!-- 恢复默认/保存: Nova 原生按钮形态 (h-9 px-4 rounded shadow, 2026-11-18 用户拍板), 次要钮保持描边灰 -->
+            <button
+              type="button"
+              class="h-9 px-4 text-sm font-bold rounded shadow border border-gray-300 text-gray-600 cursor-pointer transition hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
+              :disabled="busy || !hasActive"
+              @click="resetDefaults"
+            >恢复默认</button>
+            <button
+              type="button"
+              class="h-9 px-4 text-sm font-bold rounded shadow focus:outline-none ring-primary-200 dark:ring-gray-600 focus:ring bg-primary-500 hover:bg-primary-400 active:bg-primary-600 text-white dark:text-gray-800 transition"
+              :class="busy ? 'opacity-50' : 'cursor-pointer'"
+              :disabled="busy || !hasActive"
+              @click="save"
+            >{{ busy ? '保存中...' : '保存' }}</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

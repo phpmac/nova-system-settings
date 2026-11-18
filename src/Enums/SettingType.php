@@ -11,6 +11,8 @@ enum SettingType: string
     case Text = 'text';
     case Textarea = 'textarea';
     case Number = 'number';
+    /** 密文输入: 显示星号防旁窥, 值仍明文存取 (API Key 类) */
+    case Secret = 'secret';
 
     public function label(): string
     {
@@ -21,6 +23,7 @@ enum SettingType: string
             self::Text => '文本',
             self::Textarea => '多行文本',
             self::Number => '数字',
+            self::Secret => '密文',
         };
     }
 }

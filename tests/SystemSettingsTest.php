@@ -51,7 +51,7 @@ it('种子按分组落库, schema 是合法 JSON Schema 且控件类型全覆盖
         }
     });
 
-    expect($keys)->toBe(21)
+    expect($keys)->toBe(22)
         ->and(collect($controls)->unique()->sort()->values()->all())
         ->toBe(collect(SettingType::cases())->map(fn ($type) => $type->value)->sort()->values()->all())
         ->and(SystemSetting::where('group', 'general')->sole()->value['site_name'])->toBe('vc.sb');
@@ -229,4 +229,21 @@ it('Policy 禁新增删除, 读写只放 viewNova 白名单', function () {
         ->and($plain->can('update', $setting))->toBeFalse()
         ->and($plain->can('create', SystemSetting::class))->toBeFalse()
         ->and($plain->can('delete', $setting))->toBeFalse();
+});
+
+it('secret 控件收字符串通过, 非字符串按类型拒绝', function () {
+    $schema = [
+        'type' => 'object',
+        'additionalProperties' => false,
+        'required' => ['api_key'],
+        'x-order' => ['api_key'],
+        'properties' => [
+            'api_key' => ['type' => 'string', 'x-control' => 'secret', 'title' => '接口密钥', 'default' => ''],
+        ],
+    ];
+    SettingSchemaValidator::assertSchema($schema);
+
+    expect(SettingSchemaValidator::errors($schema, ['api_key' => 'sk-live-123']))->toBe([])
+        ->and(SettingSchemaValidator::errors($schema, ['api_key' => 123]))->toBe(['api_key' => '值类型或选项不符'])
+        ->and(SettingSchemaValidator::errors($schema, ['api_key' => null]))->toBe(['api_key' => '值类型或选项不符']);
 });

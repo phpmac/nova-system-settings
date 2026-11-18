@@ -60,6 +60,16 @@
         @input="$emit('update', Number($event.target.value))"
       >
 
+      <!-- 密文: type=password 只防旁窥, 值仍明文存取; autocomplete 防浏览器把它存进密码管理器 -->
+      <input
+        v-else-if="setting.type === 'secret'"
+        type="password"
+        autocomplete="new-password"
+        class="h-8 px-3 text-sm form-control form-input form-control-bordered w-full"
+        :value="value"
+        @input="$emit('update', $event.target.value)"
+      >
+
       <input
         v-else
         type="text"

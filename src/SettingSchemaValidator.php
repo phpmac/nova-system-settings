@@ -26,6 +26,7 @@ final class SettingSchemaValidator
         'textarea' => ['string'],
         'number' => ['integer', 'number'],
         'multi' => ['array'],
+        'secret' => ['string'],
     ];
 
     /**

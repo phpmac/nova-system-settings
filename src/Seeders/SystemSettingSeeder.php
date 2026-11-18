@@ -69,6 +69,7 @@ class SystemSettingSeeder extends Seeder
                 ['value' => '203.0.113.7', 'label' => '203.0.113.7 (示例)'],
             ], 'items' => ['type' => 'string', 'enum' => ['192.168.1.0/24', '10.0.0.0/8', '203.0.113.7']], 'default' => [], 'x-control' => 'multi'],
             'password_expire' => ['type' => 'integer', 'title' => '密码过期天数', 'description' => '超过该天数提示改密, 0 = 不过期', 'default' => 90, 'x-control' => 'number'],
+            'webhook_secret' => ['type' => 'string', 'title' => '回调签名密钥', 'description' => '外部回调签名校验密钥 (输入显示星号, 值仍明文保存)', 'default' => '', 'x-control' => 'secret'],
         ],
 
         'notification' => [
