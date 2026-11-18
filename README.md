@@ -1,20 +1,20 @@
-# Nova System Settings
+# Nova 系统设置扩展包
 
 Laravel Nova 5 系统设置扩展包: 以标准 JSON Schema (draft 2020-12) 驱动的后台设置页, 按分组页签渲染, 支持 toggle / select / multi / text / textarea / number 六类控件, 设置结构存库可程序消费, 替代 Nova 资源列表页形态的设置管理.
 
-## Features
+## 功能特性
 
 - Schema 驱动: 设置结构以 JSON Schema draft 2020-12 存库, 后台按 schema 渲染控件, 外部程序可读 schema 与值
 - 双重校验: opis 全文档加载校验 + 字段级断言 (类型/选项/default 一致性), 非法数据当场拒绝不落库
 - 部分提交: 按分组保存, 未提交键保持原值, 未知键或非法值整批 422 不落库
 - 自包含: 模型/迁移/Seeder/Policy/路由/构建产物全在包内, 自动发现, 零宿主代码侵入
 
-## Requirements
+## 环境要求
 
 - PHP ^8.2
 - Laravel Nova ^5.0 (宿主需已配置 nova.laravel.com composer 源与授权凭据)
 
-## Installation
+## 安装
 
 ```bash
 composer require aivcsb/nova-system-settings:^1.0
@@ -40,7 +40,7 @@ MenuSection::make('系统设置')->path('/system-settings')->icon('adjustments')
 $this->call(\Vcsb\SystemSettings\Seeders\SystemSettingSeeder::class);
 ```
 
-## Defining Settings
+## 定义设置
 
 设置结构只定义在 Seeder 常量一处, 每行一个分组, 加一条设置即加一个 property 条目, 写库前自动过 schema 断言:
 
@@ -56,7 +56,7 @@ $this->call(\Vcsb\SystemSettings\Seeders\SystemSettingSeeder::class);
 
 重跑种子: schema 无条件刷新 (加字段即生效), value 只补新增键的 default, 不覆盖后台已改的值.
 
-## Data Structure
+## 数据结构
 
 `system_settings` 表, 一行一个分组:
 
@@ -91,7 +91,7 @@ schema 文档形状:
 }
 ```
 
-## Controls
+## 控件类型
 
 | x-control | schema type | 附加约束 |
 |---|---|---|
@@ -101,7 +101,7 @@ schema 文档形状:
 | select | integer 或 string | property 级 `enum` + `x-options` |
 | multi | array | 选项约束只在 `items.enum`, x-options 与之对齐 |
 
-## HTTP API
+## HTTP 接口
 
 页面: `/system-settings` (nova 中间件链 + viewNova 门禁 + 工具授权).
 
@@ -110,7 +110,7 @@ schema 文档形状:
 | GET | `/nova-vendor/system-settings` | 返回 `{groups: [{key, label, settings: [{key, label, description, type, options, value, default}]}]}`, 由 schema+value 组装, 渲染序按 x-order |
 | PUT | `/nova-vendor/system-settings/save` | body `{values: {设置键: 值}}` 返回 `{saved: N}`, 未知键/非法值 422 |
 
-## Validation Rules
+## 校验规范
 
 - 结构唯一来源: Seeder 常量, 数据库 group 列只存 value, 枚举 `Enums\SettingGroup` 是分组的唯一枚举源
 - 字段级断言: JSON 类型与 x-control 匹配 / title 非空 / default 存在且类型一致 / select 的 enum 与 x-options 值列一致
@@ -120,7 +120,7 @@ schema 文档形状:
 - 恢复默认为 HTML reset 语义: 还原到页面加载时的值, 不改 schema default
 - 控件类型取值由 `Enums\SettingType` 维护, 禁散写
 
-## Architecture
+## 包结构
 
 ```
 src/
@@ -140,7 +140,7 @@ database/migrations/             # 建表迁移 (loadMigrationsFrom 注册)
 dist/                            # 构建产物 (mix, 已入库)
 ```
 
-## Testing
+## 测试
 
 ```bash
 vendor/bin/pest nova-components/SystemSettings/tests
@@ -148,6 +148,6 @@ vendor/bin/pest nova-components/SystemSettings/tests
 
 覆盖: schema 断言 / 读端点形状 / 游客 401 / 普通用户 403 / 六类控件混合保存 / 非法提交 422 数据不变 / 重跑种子不覆盖用户值 / Policy 只读白名单.
 
-## License
+## 许可
 
 MIT
