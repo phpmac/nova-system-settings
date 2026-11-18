@@ -1,0 +1,74 @@
+/* 结构属性走包内 CSS (nova-tool-ui 口径): Nova app.css 缺 max-h/top-full/z/半档间距, 只放结构与变量补色, 禁 hex */
+
+/* 页面卡片至少撑到视口高: 120px = Nova 顶栏 + 内容区内边距, 行区吃剩余高 */
+.setting-card {
+    min-height: calc(100vh - 120px);
+}
+
+/* 行聚焦高亮: focus-within 变体类 app.css 没打包, 底色走 Nova 变量补色 (fuel-error 同款) */
+.setting-row:focus-within {
+    background-color: rgba(var(--colors-gray-100));
+}
+
+.dark .setting-row:focus-within {
+    background-color: rgba(var(--colors-gray-800));
+}
+
+/* 单选/多选下拉列表限高滚动 (盈利日历 pnl-select__list 同口径, max-h-60 类不存在) */
+.setting-select__list {
+    max-height: 15rem;
+    overflow-y: auto;
+}
+
+/* 下拉面板层级: z-30 被 Nova 宿主导航盖时提到 40 (z-40 类不存在) */
+.setting-select__panel {
+    z-index: 40;
+}
+
+/* 下拉触发器压到 2rem 与段选齐平 (盈利日历/燃料分析同口径, 烘焙 py 会切字故用 height 不用类) */
+.setting-select__trigger {
+    height: 2rem;
+}
+
+/* 字段行槽位: 标签列与控件列统一 14rem (先例: pnl-account-slot / fuel-team-slot w-56), textarea 吃满剩余宽 */
+.setting-label-slot {
+    width: 14rem;
+}
+
+.setting-field-slot {
+    width: 14rem;
+    flex-shrink: 0;
+}
+
+.setting-control--wide {
+    flex: 1 1 auto;
+}
+
+/* 多行文本随内容增高, 上限内滚动 (Nova 无 h-* 三档匹配, 结构走包内) */
+.setting-textarea {
+    height: 6rem;
+    resize: vertical;
+}
+
+@media (max-width: 640px) {
+    /* 手机: 标签行占满, 控件行换行占满, 行距收窄 (nova-tool-ui 移动端同设计) */
+    .setting-label-slot {
+        width: 100%;
+    }
+
+    .setting-field-slot {
+        width: 100%;
+    }
+
+    .setting-row {
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+    }
+}
+
+@media (max-width: 374px) {
+    .setting-row {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+}

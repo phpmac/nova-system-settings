@@ -1,0 +1,30 @@
+{
+    "name": "vcsb/system-settings",
+    "description": "Nova 后台系统设置页: Schema 驱动的自定义设置表单 (常规/用户/安全/通知), 替代资源列表页",
+    "keywords": ["laravel", "nova"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "laravel/nova": "^5.0",
+        "illuminate/support": ">=10.0",
+        "illuminate/database": ">=10.0",
+        "opis/json-schema": "^2.4"
+    },
+    "repositories": [
+        {"type": "composer", "url": "https://nova.laravel.com"}
+    ],
+    "autoload": {
+        "psr-4": {
+            "Vcsb\\SystemSettings\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vcsb\\SystemSettings\\ToolServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
